@@ -1,6 +1,6 @@
 # So You Think You Can Cater
 
-CS1520 Assignment 2
+CS1520 Assignment 3
 
 Jordan Grogan // [jordangrogan@pitt.edu](mailto:jordangrogan@pitt.edu)
 
