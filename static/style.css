@@ -1,13 +1,16 @@
 body {
-  background: #e4e4e4; /* gray */
+  background: #e6e8f0;
 }
 
 table {
   margin: 0 auto;
+  border: solid 2px black;
+  width: 100%;
 }
 
 td {
   padding: 5px 15px 5px 15px;
+  border: solid 1px gray;
 }
 
 tr.header {
@@ -16,4 +19,8 @@ tr.header {
 
 footer {
   font-size: 12px;
+}
+
+.italics {
+  font-style: italic;
 }

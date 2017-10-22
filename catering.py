@@ -47,8 +47,8 @@ def default():
 			return render_template('default_owner.html', events=events)
 		elif session['role'] == 1: # Staff
 			yourevents = user.staffer_events
-			unfilledevents = Event.query.all() # need to work on some sort of filter
-				# filter that (1) not already signed up for (2) doesn't have all three spots filled
+			unfilledevents = Event.query.filter(~Event.staffers.contains(user)).all() # only show events that the user is not already working
+			unfilledevents = [event for event in unfilledevents if len(event.staffers) < 3] # only show events with less than 3 staffers signed up
 			return render_template('default_staff.html', yourevents=yourevents, unfilledevents=unfilledevents)
 		elif session['role'] == 2: # Customer
 			yourevents = user.customer_events
@@ -141,7 +141,7 @@ def cancel():
 def addstaff():
 	"""Owner can add staff."""
 
-	if "username" not in session and session['role'] != 0:
+	if "username" not in session or session['role'] != 0:
 		flash("You do not have permission to access that page.")
 		return redirect(url_for('default'))
 	else:

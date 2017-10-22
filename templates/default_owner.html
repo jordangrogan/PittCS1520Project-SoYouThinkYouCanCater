@@ -16,12 +16,14 @@
 			<tr class="header">
 				<td>Event</td>
 				<td>Date</td>
+				<td>Customer</td>
 				<td>Staff</td>
 			</tr>
 			{% for e in events %}
 				<tr>
 					<td>{{ e.name }}</td>
 					<td>{{ e.date }}</td>
+					<td>{{ e.customer.username }}
 					<td>
 						{% if e.staffers: %}
 							{% for s in e.staffers[:-1] %}
@@ -29,7 +31,7 @@
 							{% endfor %}
 							{{ e.staffers[-1].username }}
 						{% else: %}
-							No staff signed up.
+							<span class="italics">None Signed Up</span>
 						{% endif %}
 					</td>
 				</tr>
