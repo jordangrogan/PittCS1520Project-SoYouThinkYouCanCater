@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ super() }} - Customer{% endblock %}
+
+{% block content %}
+
+<div class="row mt-4">
+	<div class="col-sm-12">
+		<h2 class="text-center">Add Event</h2>
+		<form action="" method="post">
+		  <div class="form-group">
+		    <label for="inputEventName">Event Name</label>
+		    <input type="text" class="form-control" id="inputEventName" placeholder="Event Name" name="name">
+		  </div>
+			<div class="form-group">
+		    <label for="inputDate">Event Date</label>
+		    <input type="date" class="form-control" id="inputDate" placeholder="Event Date" name="date">
+		  </div>
+		  <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+</div>
+
+<div class="row mt-4">
+	<div class="col-sm-12">
+		<h2 class="text-center">Your Scheduled Events</h2>
+		<table>
+			<tr class="header">
+				<td>Event</td>
+				<td>Date</td>
+				<td>Cancel</td>
+			</tr>
+			{% for e in yourevents %}
+				<tr>
+					<td>{{ e.name }}</td>
+					<td>{{ e.date }}</td>
+					<td><a href="{{ url_for("cancel", event=e.id) }}">Cancel</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}

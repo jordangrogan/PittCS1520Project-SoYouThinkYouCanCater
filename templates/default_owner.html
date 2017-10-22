@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ super() }} - Owner{% endblock %}
+
+{% block menu %}
+<p class="text-center">
+	<a href="{{ url_for('addstaff') }}">Create New Staff Account</a>
+</p>
+{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+	<div class="col-sm-12">
+		<h2 class="text-center">All Scheduled Events</h2>
+		<table>
+			<tr class="header">
+				<td>Event</td>
+				<td>Date</td>
+				<td>Staff</td>
+			</tr>
+			{% for e in events %}
+				<tr>
+					<td>{{ e.name }}</td>
+					<td>{{ e.date }}</td>
+					<td>
+						{% if e.staffers: %}
+							{% for s in e.staffers[:-1] %}
+								{{ s.username }},
+							{% endfor %}
+							{{ e.staffers[-1].username }}
+						{% else: %}
+							No staff signed up.
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}

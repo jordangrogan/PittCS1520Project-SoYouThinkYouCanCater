@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ super() }} - Staff{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+	<div class="col-sm-12">
+		<h2 class="text-center">My Scheduled Events</h2>
+		<table>
+			<tr class="header">
+				<td>Event</td>
+				<td>Date</td>
+				<td>Staff</td>
+			</tr>
+			{% if yourevents: %}
+				{% for e in yourevents: %}
+					<tr>
+						<td>{{ e.name }}</td>
+						<td>{{ e.date }}</td>
+						<td>
+							{% for s in e.staffers[:-1] %}
+								{{ s.username }},
+							{% endfor %}
+							{{ e.staffers[-1].username }}
+						</td>
+					</tr>
+				{% endfor %}
+			{% else: %}
+					<tr>
+						<td colspan="3">
+							You're not signed up for any events.
+						</td>
+					</tr>
+			{% endif %}
+		</table>
+	</div>
+</div>
+<div class="row mt-4">
+	<div class="col-sm-12">
+		<h2 class="text-center">Sign Up for Event</h2>
+		<table>
+			<tr class="header">
+				<td>Event</td>
+				<td>Date</td>
+				<td>Staff</td>
+				<td>Sign Up</td>
+			</tr>
+			{% if unfilledevents: %}
+				{% for e in unfilledevents: %}
+					<tr>
+						<td>{{ e.name }}</td>
+						<td>{{ e.date }}</td>
+						<td>
+							{% if e.staffers %}
+								{% for s in e.staffers[:-1] %}
+									{{ s.username }},
+								{% endfor %}
+								{{ e.staffers[-1].username }}
+							{% endif %}
+						</td>
+						<td><a href="{{ url_for('signup', event=e.id) }}">Sign Up</a></td>
+					</tr>
+				{% endfor %}
+			{% else: %}
+					<tr>
+						<td colspan="3">
+							There are no events to sign up for.
+						</td>
+					</tr>
+			{% endif %}
+		</table>
+	</div>
+</div>
+{% endblock %}
