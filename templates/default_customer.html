@@ -30,13 +30,21 @@
 				<td>Date</td>
 				<td>Cancel</td>
 			</tr>
-			{% for e in yourevents %}
-				<tr>
-					<td>{{ e.name }}</td>
-					<td>{{ e.date }}</td>
-					<td><a href="{{ url_for("cancel", event=e.id) }}">Cancel</a></td>
-				</tr>
-			{% endfor %}
+			{% if yourevents: %}
+				{% for e in yourevents %}
+					<tr>
+						<td>{{ e.name }}</td>
+						<td>{{ e.date }}</td>
+						<td><a href="{{ url_for("cancel", event=e.id) }}">Cancel</a></td>
+					</tr>
+				{% endfor %}
+			{% else: %}
+					<tr>
+						<td colspan="3">
+							<span class="italics">You have no events scheduled.</span>
+						</td>
+					</tr>
+			{% endif %}
 		</table>
 	</div>
 </div>

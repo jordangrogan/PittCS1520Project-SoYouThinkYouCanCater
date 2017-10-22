@@ -19,23 +19,31 @@
 				<td>Customer</td>
 				<td>Staff</td>
 			</tr>
-			{% for e in events %}
-				<tr>
-					<td>{{ e.name }}</td>
-					<td>{{ e.date }}</td>
-					<td>{{ e.customer.username }}
-					<td>
-						{% if e.staffers: %}
-							{% for s in e.staffers[:-1] %}
-								{{ s.username }},
-							{% endfor %}
-							{{ e.staffers[-1].username }}
-						{% else: %}
-							<span class="italics">None Signed Up</span>
-						{% endif %}
-					</td>
-				</tr>
-			{% endfor %}
+			{% if events: %}
+				{% for e in events %}
+					<tr>
+						<td>{{ e.name }}</td>
+						<td>{{ e.date }}</td>
+						<td>{{ e.customer.username }}
+						<td>
+							{% if e.staffers: %}
+								{% for s in e.staffers[:-1] %}
+									{{ s.username }},
+								{% endfor %}
+								{{ e.staffers[-1].username }}
+							{% else: %}
+								<span class="italics">None Signed Up</span>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			{% else: %}
+					<tr>
+						<td colspan="4">
+							<span class="italics">There are no events currently.</span>
+						</td>
+					</tr>
+			{% endif %}
 		</table>
 	</div>
 </div>
