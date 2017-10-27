@@ -7,6 +7,7 @@
 
 from flask import Flask, request, session, url_for, redirect, render_template, flash
 from models import db, User, Event
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -31,27 +32,34 @@ def default():
 
 		if request.method == 'POST' and session['role'] == 2:
 			# Add an Event
-			if not request.form['name']:
-				flash("Please enter an event name.")
-			elif not request.form['date']:
+			if not request.form['date']:
 				flash("Please enter an event date.")
-			elif Event.query.filter_by(date = request.form['date']).count() > 0:
-				flash("Sorry, that date is not available.")
 			else:
-				db.session.add(Event(name=request.form['name'], date=request.form['date'], customer_id=user.id))
-				db.session.commit()
-				flash("Your event has been added!")
+				try:
+					date = datetime.strptime(request.form['date'],"%Y-%m-%d").date()
+					if not request.form['name']:
+						flash("Please enter an event name.")
+					elif Event.query.filter_by(date=date).count() > 0:
+						flash("Sorry, that date is not available.")
+					elif date < datetime.now().date():
+						flash("Please enter a future date.")
+					else:
+						db.session.add(Event(name=request.form['name'], date=date, customer_id=user.id))
+						db.session.commit()
+						flash("Your event has been added!")
+				except ValueError:
+					flash("Please enter an event date in the format YYYY-MM-DD.")
 
 		if session['role'] == 0: # Owner
-			events = Event.query.all()
+			events = Event.query.filter(Event.date >= datetime.now().date()).all()
 			return render_template('default_owner.html', events=events)
 		elif session['role'] == 1: # Staff
 			yourevents = user.staffer_events
-			unfilledevents = Event.query.filter(~Event.staffers.contains(user)).all() # only show events that the user is not already working
+			unfilledevents = Event.query.filter(Event.date >= datetime.now().date(), ~Event.staffers.contains(user)).all() # only show events that the user is not already working
 			unfilledevents = [event for event in unfilledevents if len(event.staffers) < 3] # only show events with less than 3 staffers signed up
 			return render_template('default_staff.html', yourevents=yourevents, unfilledevents=unfilledevents)
 		elif session['role'] == 2: # Customer
-			yourevents = user.customer_events
+			yourevents = Event.query.filter(Event.date >= datetime.now().date(), Event.customer_id==session['user_id']).all()
 			return render_template('default_customer.html', yourevents=yourevents)
 
 	return redirect(url_for('login'))

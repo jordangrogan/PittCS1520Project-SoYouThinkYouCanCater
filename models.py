@@ -26,7 +26,7 @@ class User(db.Model):
 class Event(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(50))
-	date = db.Column(db.String(50))
+	date = db.Column(db.Date)
 	customer_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 	def __init__(self, name, date, customer_id):
