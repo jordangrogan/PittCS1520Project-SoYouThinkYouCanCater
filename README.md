@@ -17,4 +17,4 @@ Then, initalize the database:
 `flask initdb`  
 Then, run the app:  
 `flask run`  
-Lastly, go to `http://localhost:5000` in your browser.
+Lastly, go to [http://localhost:5000](http://localhost:5000) in your browser.
