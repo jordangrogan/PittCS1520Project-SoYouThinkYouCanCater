@@ -16,4 +16,5 @@ Then, set FLASK_APP to catering.py:
 Then, initalize the database:  
 `flask initdb`  
 Then, run the app:  
-`flask run`
+`flask run`  
+Lastly, go to `http://localhost:5000` in your browser.
